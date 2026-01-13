@@ -1,13 +1,19 @@
 .vertical-slider {
 	writing-mode: vertical-lr;
-	appearance: slider-vertical;
-	-webkit-appearance: slider-vertical;
 				
-	width: 64px;
-	height: 800px;
+	width: 32px;
+	height: 400px;
 	direction: rtl;
 }
 
+h1 {
+	padding: 50 px 20 px;
+}
+.horiz_slider {
+	width: 400px;
+	height: 32px;
+	direction: rtl;
+}
 body {
 	align-items: center;
 	display: flex;
