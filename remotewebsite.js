@@ -30,17 +30,22 @@ const ws = new WebSocket("ws://10.0.0.238:5432");
 ws.addEventListener('open', () => {
 	console.log('connected to server');
 });
+const wsFlag = false
 
 //for reconnections etcs ty stackoverflow
-function readyState(ws) {
+function readyState() {
 	if (ws.readyState === ws.OPEN) {
 		return true
 	}
 	//make new
-	else {
-		ws.close()
-		const ws = new WebSocket("ws://10.0.0.238:5432");
-		readyState(newws);
+	else if (ws.readyState === ws.CLOSED && wsFlag === false) {
+		let ws = new WebSocket("ws://10.0.0.238:5432");
+		let wsFlag = true
+		ws.addEventListener('open', () => {
+			console.log('reconnecting');
+			let wsFlag = false;
+		});
+		return false;
 	}
 }
 
@@ -83,7 +88,7 @@ function pollGamepad() {
 				document.getElementById('throttle').value ++;
 			}
 			
-			if (readyState(ws) === true) {
+			if (readyState()) {
 				motorData = [document.getElementById('throttle').value,document.getElementById('pitch').value,stopBut]
 				ws.send(JSON.stringify(motorData));
 			}

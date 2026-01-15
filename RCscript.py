@@ -11,7 +11,6 @@ async def handler(ws):
     async for msg in ws:
         #instead of looping through msg, js use map to do all at once
         throttle, pitch, aButton= map(str, msg.split(","))
-        return pitch,throttle,aButton
         print("direction: ", pitch, "throttle: ", throttle, aButton)
         
 # creates websocket
