@@ -22,8 +22,11 @@ async def handler(ws):
         if throttle >= 0:
             FthrottleLeft.ChangeDutyCycle(throttle)
             FthrottleRight.ChangeDutyCycle(throttle)
-
-
+        if aButton == 'True]':
+            FthrottleLeft.ChangeDutyCycle(0)
+            FthrottleRight.ChangeDutyCycle(0)
+            BthrottleLeft.ChangeDutyCycle(0)
+            BthrottleRight.ChangeDutyCycle(0)
 # creates websocket
 async def main():
     async with websockets.serve(handler, "", 5432):
@@ -32,11 +35,11 @@ async def main():
 # setting up motors 
 GPIO.setmode(GPIO.BCM)
 
-lFor = 17
-rFor = 27
+lBack = 17
+rBack = 27
 
-lBack = 22
-rBack = 23
+lFor = 22
+rFor = 23
 
 GPIO.setup(rBack,GPIO.OUT)
 GPIO.setup(lFor,GPIO.OUT)
