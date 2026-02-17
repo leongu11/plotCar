@@ -15,8 +15,6 @@ GPIO.setup(lFor,GPIO.OUT)
 GPIO.setup(lBack,GPIO.OUT)
 GPIO.setup(rFor,GPIO.OUT)
 
-#add function which estimate based off angles what the pwm should be
-
 #initializing pwm instances and starting at 0
 
 ##frequency
@@ -38,8 +36,12 @@ trig = 23
 GPIO.setup(trig, GPIO.OUT)
 GPIO.setup(echo, GPIO.IN)
 
-#fix ultrasonic -- its not sending pulses
 while True:
+    
+    throttleForwards.ChangeDutyCycle(75)
+
+    #collision-detection
+
     GPIO.output(trig, GPIO.HIGH)
     time.sleep(0.00001)
     GPIO.output(trig,GPIO.LOW)
@@ -60,46 +62,18 @@ while True:
     distance = pulseTime*34400/2
 
     print(distance)
+
+    if distance<50:
+        throttleForwards.ChangeDutyCycle(0)
+        time.sleep(0.5)
+        throttleBack.ChangeDutyCycle(100)
+        steerRight.ChangeDutyCycle(100)
+        ##CALIBRATE
+        time.sleep(5)
+        throttleBack.ChangeDutyCycle(0)
+        steerRight.ChangeDutyCycle(0)
+
     GPIO.output(trig,GPIO.LOW)
-    time.sleep(0.5)
-
-
-
-
-
-
-
-#turn calibration
-
-# throttleForwards.ChangeDutyCycle(100)
-# steerRight.ChangeDutyCycle(75)
-# time.sleep(3)
-# throttleForwards.ChangeDutyCycle(0)
-# steerRight.ChangeDutyCycle(0)
-
-# ##calibrated back
-# throttleBack.ChangeDutyCycle(88)
-# steerRight.ChangeDutyCycle(75)
-# time.sleep(3)
-
-# throttleBack.ChangeDutyCycle(0)
-# steerRight.ChangeDutyCycle(0)
-
-
-# while True:
-
-    # steerLeft.ChangeDutyCycle(0)
-    # lrin = input()
-    # print('rec')
-    # if lrin == 'a':
-    #     steerLeft.ChangeDutyCycle(50)
-    #     time.sleep(0.1)
-    #     steerRight.ChangeDutyCycle(50)
-
-
-    # elif lrin == 'd':
-    #     steerRight.ChangeDutyCycle(100)
-    #     time.sleep(0.1)
-    #     steerLeft.ChangeDutyCycle(100)
+    time.sleep(0.1)
 
 GPIO.cleanup()
